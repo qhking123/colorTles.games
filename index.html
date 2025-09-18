@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Color Tiles - Play and Master the Game</title>
+    <meta name="description" content="Play Google Color Tiles, learn how to play, understand the game, and find answers to frequently asked questions. Master the addictive color tile game!">
+    <meta name="keywords" content="google color tiles, color tiles game, play color tiles, color tiles online, how to play color tiles, what is color tiles game, why play color tiles, color tiles faq">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <h1><a href="/">Google Color Tiles</a></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <section class="game-section">
+            <h2>Google Color Tiles</h2>
+            <p>The ultimate free online color matching puzzle game! Tap any blank space to collect all adjacent matching colored tiles. Challenge yourself with 200 colorful tiles in just 120 seconds!</p>
+            <!-- Game will be embedded here -->
+            <div class="game-embed-placeholder">
+                <div class="game-info">
+                    <span id="scoreDisplay">Score: 0</span>
+                    <span id="timerDisplay">Time: 120s</span>
+                </div>
+                <canvas id="gameCanvas" width="500" height="500"></canvas>
+                <button class="play-button" id="playPauseButton">Play</button>
+                <button class="play-button reset-button" id="resetGameButton">Reset</button>
+            </div>
+        </section>
+
+
+
+        <section class="card how-to-play-section">
+            <h2>How to Play Color Tiles</h2>
+            <p>Master the color tiles game in four simple steps:</p>
+            <ol>
+                <li><strong>Tap Blank Spaces:</strong> Click on any blank space on the game board.</li>
+                <li><strong>Match Colors:</strong> Collect neighboring tiles (vertically or horizontally) that match the color of the space you tapped. You need at least 2 tiles of the same color to collect them.</li>
+                <li><strong>Score Points:</strong> Earn 1 point for each tile collected.</li>
+                <li><strong>Beat the Clock:</strong> Score as many points as possible within the 120-second time limit!</li>
+            </ol>
+            <h3>Gameplay Mechanics</h3>
+            <ul>
+                <li>Click on groups of 2 or more same-colored tiles that are adjacent (horizontally or vertically) to a tapped blank space.</li>
+                <li>Cleared tiles become blank spaces.</li>
+                <li>Plan your moves to create chain reactions and maximize your score.</li>
+            </ul>
+        </section>
+
+        <section class="card what-is-game-section">
+            <h2>What is Google Color Tiles Game?</h2>
+            <p>Google Color Tiles game is an addictive puzzle game where you tap blank spaces to collect matching colored tiles. Challenge yourself with 200 tiles and a 120-second time limit! </p>
+            <h3>Strategic Gameplay</h3>
+            <p>Tap on blank spaces to collect tiles that match neighboring colors vertically or horizontally. </p>
+            <h3>Time Challenge</h3>
+            <p>Beat the 120-second timer to maximize your score in this fast-paced puzzle game. </p>
+            <h3>Score System</h3>
+            <p>Earn 1 point per tile collected. Continue playing after time runs out, but your score is locked! </p>
+        </section>
+
+        <section class="card why-play-section">
+            <h2>Why Play Google Color Tiles Game?</h2>
+            <p>Discover why millions love this addictive color matching puzzle game that challenges your strategy and speed. </p>
+            <ul>
+                <li><strong>Exercise your mind:</strong> Engage in strategic thinking and pattern recognition. </li>
+                <li><strong>Enhance reaction time:</strong> Improve your speed and reflexes in a fast-paced environment. </li>
+                <li><strong>Fun and challenging:</strong> Enjoy an addictive puzzle experience with endless replayability. </li>
+            </ul>
+        </section>
+
+        <section class="card faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <dl>
+                <dt>Q: How do you play Google Color Tiles game?</dt>
+                <dd>A: Simply tap on any blank space on the game board. If the neighboring tiles (vertically or horizontally) match the color of the space you tapped, you collect those tiles and earn points. The goal is to collect as many tiles as possible within the 120-second time limit. </dd>
+
+                <dt>Q: What is the scoring system in the color tiles game?</dt>
+                <dd>A: You earn 1 point for each tile you collect. The standard game has 200 tiles total, so the maximum possible score is 200 points. Your score is locked when the 120-second timer runs out, but you can continue playing to collect remaining tiles. </dd>
+
+                <dt>Q: Are there different versions of Google Color Tiles game?</dt>
+                <dd>A: Yes! There's the classic 200-tile version, a mini 100-tile version for quicker games, and various other color matching variations. Each version maintains the core Google Color Tiles game mechanics but offers different challenges. </dd>
+
+                <dt>Q: Can I play the color tiles game on mobile devices?</dt>
+                <dd>A: Absolutely! Our Google Color Tiles game is fully responsive and works perfectly on smartphones, tablets, and desktop computers. The touch controls are optimized for mobile gameplay while maintaining the precision needed for strategic play. </dd>
+
+                <dt>Q: Is there a strategy to get higher scores in the color tiles game?</dt>
+                <dd>A: Yes! Look for areas with large clusters of the same color before tapping. Plan your moves to create chain reactions and always prioritize spaces that will give you the most matching tiles. Practice helps you recognize patterns faster. </dd>
+
+                <dt>Q: Can I compete with friends in Google Color Tiles game?</dt>
+                <dd>A: Yes! You can share your scores with friends and challenge them to beat your high score. The game includes social features that let you compare performance and compete on leaderboards with other color tiles game players. </dd>
+            </dl>
+        </section>
+        <div class="game-over-overlay hidden" id="game-over-overlay">
+            <div class="game-over-content">
+                <h2>Game Over!</h2>
+                <p>Your Score: <span id="final-score">0</span></p>
+                <button id="restart-button">Restart</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <hr class="footer-divider">
+            <p>&copy; 2025 GoogleColorTiles.com. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="game.js"></script>
+</body>
+</html>
