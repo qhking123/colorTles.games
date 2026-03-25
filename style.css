@@ -14,12 +14,15 @@ body {
 
 /* Header Styles */
 .main-header {
-    background-color: #ffffff; /* White background for header */
-    padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for header */
+    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 0;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
     position: sticky;
     top: 0;
     z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .header-content {
@@ -30,34 +33,57 @@ body {
 
 .logo h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 .logo h1 a {
     text-decoration: none;
     color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+/* Google Style Colors for Logo */
+.logo-g { color: #4285F4; }
+.logo-o1 { color: #EA4335; }
+.logo-o2 { color: #FBBC05; }
+.logo-g2 { color: #4285F4; }
+.logo-l { color: #34A853; }
+.logo-e { color: #EA4335; }
 
 .main-header nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
+    align-items: center;
 }
 
 .main-header nav ul li {
-    margin-left: 25px;
+    margin-left: 20px;
 }
 
 .main-header nav ul li a {
     text-decoration: none;
     color: #555;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
 
 .main-header nav ul li a:hover {
-    color: #007bff; /* Blue for hover effect */
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.main-header nav ul li a.active {
+    color: #007bff;
+    font-weight: 700;
 }
 
 /* Main Content Area */
@@ -78,75 +104,445 @@ body {
     font-size: 22px;
 }
 
-/* Game Info Display */
+/* Game Styles */
+.game-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.game-embed-placeholder {
+    max-width: 1100px; /* 适配 20x50=1000px 的主流黄金尺寸画布 */
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #ffffff, #f0f2f5);
+    border-radius: 24px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+}
+
 .game-info {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
+    justify-content: space-between;
+    padding: 18px 30px;
+    background: linear-gradient(to bottom, #ffffff, #f9fafb);
+    border-radius: 16px;
+    margin-bottom: 25px;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #1a73e8; /* 统一为 Google Blue */
+    border: 1px solid #e8eaed;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.game-container {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 24px;
+    padding: 15px;
+    
+    /* 强化 3D 轮廓：使用更明显的实物边框感 */
+    background: #ffffff;
+    border: 2px solid #e0e0e0; /* 增加宽度并加深颜色 */
+    
+    /* 
+       强化 3D 方案：
+       1. 分层投影 (Layered Shadows)
+       2. 顶部高光 (Rim light) 模拟物理边缘
+       3. 底部加重 (Base weight)
+    */
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.1), /* 外部环境投影 */
+        inset 0 2px 0 rgba(255, 255, 255, 1), /* 顶部高光，增加厚度 */
+        inset 0 -2px 1px rgba(0, 0, 0, 0.02),  /* 底部微弱深色，增加重量 */
+        0 4px 0 #d0d0d0;                      /* 底部物理支撑层，模拟 3D 厚度 */
 }
 
 #gameCanvas {
     display: block;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    width: 1280px; /* 20 columns * 64px/tile */
-    height: 640px; /* 10 rows * 64px/tile */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    cursor: crosshair;
+    border-radius: 12px;
+    background: #ffffff;
+    
+    /* 优化沉降感：减弱深色阴影，使用更通透的渐变内阴影 */
+    box-shadow: 
+        inset 0 2px 10px rgba(0, 0, 0, 0.03),
+        0 0 0 1px rgba(0, 0, 0, 0.02);
 }
 
-.game-embed-placeholder {
-    background-color: #ffffff; /* White background for placeholder */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 0.5px 3px rgba(0, 0, 0, 2); /* Subtle 3D/shadow effect */
-    padding: 30px;
-    text-align: center;
-    color: #6c757d;
-    font-size: 18px;
+/* Game Start Overlay */
+.game-start-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1); /* 再次调低不透明度，使蒙层极度透明 */
+    backdrop-filter: blur(1px); /* 减弱模糊效果 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.game-start-overlay.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    display: none !important;
+}
+
+.overlay-play {
+    padding: 18px 45px !important;
+    font-size: 1.5em !important;
+    background: #34A853 !important; /* Google Green */
+    box-shadow: 0 4px 15px rgba(52, 168, 83, 0.4) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    color: white !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.overlay-play:hover {
+    transform: scale(1.05);
+    background: #2d9147 !important;
+    box-shadow: 0 6px 20px rgba(52, 168, 83, 0.5) !important;
+}
+
+.play-icon {
+    font-size: 1.2em;
+}
+
+.game-controls {
     margin-top: 20px;
-    border: none; /* Remove dashed border */
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .play-button {
-    background-color: #007bff; /* Blue button */
+    padding: 12px 30px;
+    font-size: 1.1em;
+    background: #4285F4; /* Google Blue */
     color: white;
     border: none;
-    padding: 12px 25px;
     border-radius: 8px;
-    font-size: 18px;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+    font-weight: bold;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
 }
 
 .play-button:hover {
+    background: #357ae8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(66, 133, 244, 0.4);
+}
+
+.reset-button {
+    background: #EA4335; /* Google Red */
+    box-shadow: 0 4px 10px rgba(234, 67, 53, 0.3);
+}
+
+.reset-button:hover {
+    background: #d33828;
+    box-shadow: 0 6px 15px rgba(234, 67, 53, 0.4);
+}
+
+/* Game Over Overlay */
+/* Exploration Section */
+.explore-more-section {
+    margin-top: 40px;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.explore-more-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.explore-item {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #eee;
+}
+
+.explore-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.explore-item h3 {
+    margin-top: 0;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+.explore-item h3 a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.explore-item h3 a:hover {
+    color: #007bff;
+}
+
+.explore-item p {
+    color: #666;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.explore-item .card-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: auto;
+}
+
+.explore-item .card-link:hover {
+    text-decoration: underline;
+}
+
+.explore-icon {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.play-button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.play-button-link {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease;
+}
+
+.play-button-link:hover {
     background-color: #0056b3;
 }
 
-.play-button.reset-button {
-    background-color: #6c757d; /* Grey for reset button */
+/* How to Play Visual Steps */
+.how-to-play-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 25px;
 }
 
-.play-button.reset-button:hover {
-    background-color: #5a6268;
+.step-card {
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
 }
+
+.step-card:hover {
+    border-color: #007bff;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+}
+
+.step-number {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    line-height: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.step-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #f0f2f5;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px dashed #ccc;
+}
+
+.step-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.step-image-placeholder span {
+    color: #999;
+    font-size: 0.85em;
+    padding: 10px;
+}
+
+.step-card h3 {
+    margin: 10px 0;
+    font-size: 1.15em;
+    color: #333;
+}
+
+.step-card p {
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Mini Game Board Illustration for Step 2 */
+.mini-board {
+    display: grid;
+    grid-template-columns: repeat(3, 30px);
+    gap: 5px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.mini-tile {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+}
+
+.mini-tile.red { background-color: #EA4335; }
+.mini-tile.blue { background-color: #4285F4; }
+.mini-tile.blank { background-color: #f0f0f0; border: 1px dashed #ccc; }
+.mini-tile.selected { border: 2px solid #333; box-shadow: 0 0 5px rgba(0,0,0,0.3); position: relative; z-index: 2; }
+
+/* Connection Lines */
+.connection-line {
+    position: absolute;
+    background: transparent;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.connection-line.horizontal {
+    height: 0;
+    width: 100px;
+    top: 60px; /* 精确对齐第二行中心 */
+    left: 10px;
+    border-top: 2px dashed #EA4335;
+}
+
+.connection-line.vertical {
+    width: 0;
+    height: 100px;
+    left: 60px; /* 精确对齐第二列中心 */
+    top: 10px;
+    border-left: 2px dashed #EA4335;
+}
+
+.mini-board.wide {
+    grid-template-columns: repeat(5, 30px);
+    width: 180px;
+    height: 50px;
+    display: grid;
+    gap: 5px;
+    padding: 10px;
+}
+
+.mini-board.wide .connection-line.horizontal {
+    width: 170px;
+    top: 25px;
+    left: 5px;
+}
+
+/* Tip Section Style */
+.pro-tip {
+    margin-top: 20px;
+    background: #e7f3ff;
+    border-left: 4px solid #4285F4;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+}
+
+.tile-highlight {
+    position: relative;
+    z-index: 3;
+}
+
+.mini-tile.green { background-color: #34A853; }
+
+.tile-highlight::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px dashed var(--highlight-color, #EA4335);
+    border-radius: 6px;
+    pointer-events: none;
+    animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
 /* Footer Styles */
 .main-footer {
-    background-color: #ffffff; /* White background for footer */
-    padding: 30px 0;
-    text-align: center;
-    color: #777;
-    font-size: 14px;
+    background-color: #f8f9fa;
+    padding: 40px 0;
+    border-top: 1px solid #dee2e6;
     margin-top: 40px;
+    text-align: center;
 }
 
-.footer-divider {
-    border: none;
+.main-footer nav a {
+    margin: 0 10px;
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.main-footer nav a:hover {
+    color: #333;
 }
 
 /* Responsive Design */
