@@ -13,20 +13,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Color Tiles | Google Colour Tiles - Play Google Game Online</title>
-    <meta name="description" content="Play Google Color Tiles (or Google Colour Tiles), the addictive color matching puzzle game. Learn how to play, master the strategy, and challenge your high score in this fun Google game.">
+    <meta name="description" content="Play Google Color Tiles (or Google Colour Tiles), the addictive color matching puzzle game. Only 3.5% beat Level 8! No human record for Level 11 & 12 yet. Dare to challenge?">
     <meta name="keywords" content="google color tiles, google colour tiles, color tiles google game, colour tiles google game, color tiles game, play color tiles, color tiles online, how to play color tiles, what is color tiles game">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://colortiles.games/">
-    <meta property="og:title" content="Google Color Tiles | Google Colour Tiles - Play Google Game">
-    <meta property="og:description" content="Master the addictive Google Color Tiles puzzle game. Play online for free, match colors, and beat the clock!">
+    <meta property="og:title" content="Google Color Tiles | Google Colour Tiles - Only 3.5% Beat Level 8!">
+    <meta property="og:description" content="Only 3.5% beat Level 8! No human record for Level 11 & 12 yet. Master the addictive Google Color Tiles puzzle game. Dare to challenge?">
     <meta property="og:image" content="https://colortiles.games/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://colortiles.games/">
-    <meta property="twitter:title" content="Google Color Tiles | Google Colour Tiles - Play Google Game">
-    <meta property="twitter:description" content="Master the addictive Google Color Tiles puzzle game. Play online for free, match colors, and beat the clock!">
+    <meta property="twitter:title" content="Google Color Tiles | Google Colour Tiles - Only 3.5% Beat Level 8!">
+    <meta property="twitter:description" content="Only 3.5% beat Level 8! No human record for Level 11 & 12 yet. Master the addictive Google Color Tiles puzzle game. Dare to challenge?">
     <meta property="twitter:image" content="https://colortiles.games/og-image.jpg">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -53,7 +53,7 @@
           "price": "0",
           "priceCurrency": "USD"
         },
-        "description": "An addictive color matching puzzle game where players tap blank spaces to collect matching colored tiles within 120 seconds.",
+        "description": "Only 3.5% beat Level 8! No human record for Level 11 & 12 yet. An addictive color matching puzzle game where players tap blank spaces to collect matching colored tiles. Dare to challenge?",
         "url": "https://colortiles.games/",
         "author": {
           "@type": "Organization",
@@ -143,18 +143,35 @@
             <p>Welcome to the ultimate free online color matching puzzle game! Whether you call it <strong>Google Color Tiles</strong> or <strong>Google Colour Tiles</strong>, this is the best place to play this addictive color tiles Google game. Challenge yourself with 200 colorful tiles in just 120 seconds!</p>
             <!-- Game will be embedded here -->
             <div class="game-embed-placeholder">
+                <!-- Challenge Banner -->
+                <div class="challenge-banner">
+                    🏆 Only <strong>3.5%</strong> of players beat Level 8! No human record for Level 11 & 12 yet 💀 Dare to challenge?
+                </div>
+
                 <div class="game-info">
-                    <span id="scoreDisplay">Score: 0</span>
-                    <span id="timerDisplay">Time: 120s</span>
+                    <div class="info-item"><strong>Level:</strong> <span id="currentLevel">1</span></div>
+                    <div class="info-item"><strong>Score:</strong> <span id="scoreDisplay">0</span></div>
+                    <div class="info-item"><strong>Time:</strong> <span id="timerDisplay">60s</span></div>
                 </div>
+                
+                <!-- Pass Rate Stunt -->
+                <div class="pass-rate-stunt" id="pass-rate-stunt">
+                    🔥 <span id="pass-rate-text">Only 98.5% cleared this level</span>
+                </div>
+
                 <div class="game-container">
-                    <canvas id="gameCanvas"></canvas>
-                    <div class="game-start-overlay" id="game-start-overlay">
-                        <button class="play-button overlay-play" id="start-overlay-button">
-                            <span class="play-icon">▶</span> Play Now
-                        </button>
-                    </div>
+            <canvas id="gameCanvas"></canvas>
+            <div class="game-start-overlay" id="game-start-overlay">
+                <div class="overlay-content">
+                    <button class="play-button overlay-play" id="start-overlay-button">
+                        <span class="play-icon">▶</span> Start Game
+                    </button>
+                    <button class="play-button restart-first-level" id="restart-level-1-button" style="margin-top: 15px; background: #5f6368; font-size: 1rem; padding: 10px 20px;">
+                        ↺ Start from Level 1
+                    </button>
                 </div>
+            </div>
+        </div>
                 <div class="game-controls">
                     <button class="play-button" id="playPauseButton">Play</button>
                     <button class="play-button reset-button" id="resetGameButton">Reset</button>
@@ -188,19 +205,19 @@
                     <div class="step-number">2</div>
                     <div class="step-image-placeholder">
                         <div class="mini-board">
-                            <!-- 第一行 -->
+                            <!-- Row 1 -->
                             <div class="mini-tile blue"></div>
-                            <div class="mini-tile red tile-highlight"></div> <!-- 上方匹配 -->
+                            <div class="mini-tile red tile-highlight"></div> <!-- Top Match -->
                             <div class="mini-tile blue"></div>
                             
-                            <!-- 第二行 (中心点击行) -->
-                            <div class="mini-tile red tile-highlight"></div> <!-- 左侧匹配 -->
-                            <div class="mini-tile blank selected"></div>    <!-- 点击的中心点 -->
-                            <div class="mini-tile red tile-highlight"></div> <!-- 右侧匹配 -->
+                            <!-- Row 2 (Click Center) -->
+                            <div class="mini-tile red tile-highlight"></div> <!-- Left Match -->
+                            <div class="mini-tile blank selected"></div>    <!-- Clicked Center -->
+                            <div class="mini-tile red tile-highlight"></div> <!-- Right Match -->
                             
-                            <!-- 第三行 -->
+                            <!-- Row 3 -->
                             <div class="mini-tile blue"></div>
-                            <div class="mini-tile red tile-highlight"></div> <!-- 下方匹配 -->
+                            <div class="mini-tile red tile-highlight"></div> <!-- Bottom Match -->
                             <div class="mini-tile blue"></div>
                         </div>
                     </div>
@@ -259,6 +276,41 @@
                     <li>Cleared tiles become new blank spaces, creating new opportunities.</li>
                     <li>Plan your moves to create chain reactions and maximize your score!</li>
                 </ul>
+            </div>
+        </section>
+
+        <!-- Difficulty Levels Section -->
+        <section class="game-info-section levels-section card">
+            <h2 class="section-title">Difficulty Levels</h2>
+            <div class="levels-table-container">
+                <table class="levels-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Name</th>
+                            <th>Target</th>
+                            <th>Time</th>
+                            <th>Colors</th>
+                            <th>Pass Rate</th>
+                            <th>Difficulty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="levels-table-body">
+                        <!-- Levels will be injected here or hardcoded -->
+                        <tr><td>1</td><td>Easy Start</td><td>100</td><td>60s</td><td>3</td><td>98.5%</td><td>⭐⭐</td></tr>
+                        <tr><td>2</td><td>Gentle Flow</td><td>100</td><td>55s</td><td>3</td><td>85.2%</td><td>⭐⭐</td></tr>
+                        <tr><td>3</td><td>Steady Pace</td><td>100</td><td>50s</td><td>4</td><td>62.8%</td><td>⭐⭐⭐</td></tr>
+                        <tr><td>4</td><td>Fast Thinking</td><td>100</td><td>48s</td><td>4</td><td>45.1%</td><td>⭐⭐⭐</td></tr>
+                        <tr><td>5</td><td>Path Finder</td><td>100</td><td>45s</td><td>4</td><td>28.4%</td><td>⭐⭐⭐⭐</td></tr>
+                        <tr><td>6</td><td>Color Burst</td><td>100</td><td>42s</td><td>5</td><td>15.7%</td><td>⭐⭐⭐⭐</td></tr>
+                        <tr><td>7</td><td>Expert Mode</td><td>100</td><td>40s</td><td>5</td><td>8.3%</td><td>⭐⭐⭐⭐⭐</td></tr>
+                        <tr><td>8</td><td>Master Reflex</td><td>100</td><td>38s</td><td>6</td><td>3.5%</td><td>⭐⭐⭐⭐⭐</td></tr>
+                        <tr><td>9</td><td>Nightmare</td><td>100</td><td>25s</td><td>6</td><td>0.8%</td><td>💀</td></tr>
+                        <tr><td>10</td><td>Chaos Theory</td><td>100</td><td>20s</td><td>7</td><td>0.1%</td><td>💀💀</td></tr>
+                        <tr><td>11</td><td>Near Zero</td><td>100</td><td>15s</td><td>7</td><td>0%</td><td>💀💀💀</td></tr>
+                        <tr><td>12</td><td>True Hell</td><td>100</td><td>12s</td><td>8</td><td>0%</td><td>💀💀💀💀💀</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 

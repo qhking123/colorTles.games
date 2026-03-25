@@ -21,27 +21,51 @@ const startOverlayButton = document.getElementById('start-overlay-button');
 const TILE_SIZE = 50; // 设置为 50，对应 1000px 总宽，这是网页游戏的主流黄金尺寸
 const BOARD_ROWS = 10;
 const BOARD_COLS = 20;
-const INITIAL_TIME = 30; // seconds
+
+// --- Debug Parameters ---
+// If DEBUG_START_LEVEL is a value between 1-12, the game will start from that level.
+// If -1, it starts from Level 1 normally.
+const DEBUG_START_LEVEL = -1; 
+
+// --- 关卡系统配置 (12 关梯度难度) ---
+const LEVEL_CONFIGS = [
+    { level: 1,  time: 60, colors: 3, blankChance: 0.40, targetScore: 100, name: "Easy Start", passRate: "98.5%" },
+    { level: 2,  time: 55, colors: 3, blankChance: 0.38, targetScore: 100, name: "Gentle Flow", passRate: "85.2%" },
+    { level: 3,  time: 50, colors: 4, blankChance: 0.35, targetScore: 100, name: "Steady Pace", passRate: "62.8%" },
+    { level: 4,  time: 48, colors: 4, blankChance: 0.32, targetScore: 100, name: "Fast Thinking", passRate: "45.1%" },
+    { level: 5,  time: 45, colors: 4, blankChance: 0.30, targetScore: 100, name: "Path Finder", passRate: "28.4%" },
+    { level: 6,  time: 42, colors: 5, blankChance: 0.28, targetScore: 100, name: "Color Burst", passRate: "15.7%" },
+    { level: 7,  time: 40, colors: 5, blankChance: 0.25, targetScore: 100, name: "Expert Mode", passRate: "8.3%" },
+    { level: 8,  time: 38, colors: 6, blankChance: 0.22, targetScore: 100, name: "Master Reflex", passRate: "3.5%" },
+    { level: 9,  time: 25, colors: 6, blankChance: 0.18, targetScore: 100, name: "Nightmare", passRate: "0.8%" },
+    { level: 10, time: 20, colors: 7, blankChance: 0.15, targetScore: 100, name: "Chaos Theory", passRate: "0.1%" },
+    { level: 11, time: 15, colors: 7, blankChance: 0.12, targetScore: 100, name: "Near Zero", passRate: "0.01%" },
+    { level: 12, time: 12, colors: 8, blankChance: 0.08, targetScore: 100, name: "True Hell", passRate: "0%" }
+];
+
 const COLORS = [
     ['#4285F4', '#1967D2'], // Google Blue
     ['#EA4335', '#C5221F'], // Google Red
     ['#FBBC05', '#F29900'], // Google Yellow
     ['#34A853', '#188038'], // Google Green
-    ['#AF5CF7', '#8430CE']  // Modern Purple
+    ['#AF5CF7', '#8430CE'], // Modern Purple
+    ['#FF6D01', '#E65100'], // Deep Orange
+    ['#00B8D4', '#0097A7'], // Cyan
+    ['#FF4081', '#C2185B']  // Pink
 ]; 
-const BLANK_COLOR = '#E8EAED'; // 浅灰色，更符合现代 UI 的背景感
-const BLANK_CHANCE = 0.3; 
-const GAME_DURATION = 120; 
+const BLANK_COLOR = '#E8EAED'; 
 
+// 根据测试参数设置初始关卡
+let currentLevel = (DEBUG_START_LEVEL >= 1 && DEBUG_START_LEVEL <= 12) ? DEBUG_START_LEVEL : 1;
 let board = [];
 let score = 0;
-let timeLeft = GAME_DURATION;
+let timeLeft = LEVEL_CONFIGS[currentLevel - 1].time;
 let gameInterval;
 let timerInterval;
 let gameStarted = false;
 let isPaused = false;
-let blinkState = true; // New variable to control blinking dot visibility
-let blinkInterval; // New interval for blinking effect
+let blinkState = true;
+let blinkInterval;
 
 // Helper function to draw a rounded rectangle with shadow and optional stroke
 function drawRoundedRect(x, y, width, height, radius, colors, strokeColor, strokeWidth, shadowColor, shadowBlur, shadowOffsetX, shadowOffsetY) {
@@ -87,19 +111,30 @@ function drawRoundedRect(x, y, width, height, radius, colors, strokeColor, strok
 }
 
 function initGame() {
+    const config = LEVEL_CONFIGS[currentLevel - 1];
+    
+    // 准备本关的时间
+    timeLeft = config.time;
+    // 每一关开始都重置本关分数
+    score = 0;
+    
+    // 生成新棋盘
     board = [];
+    const activeColors = COLORS.slice(0, config.colors).map(c => c[0]);
+
     for (let i = 0; i < BOARD_ROWS; i++) {
-        board[i] = [];
+        let row = [];
         for (let j = 0; j < BOARD_COLS; j++) {
-            if (Math.random() < BLANK_CHANCE) {
-                board[i][j] = BLANK_COLOR;
+            if (Math.random() < config.blankChance) {
+                row.push(BLANK_COLOR);
             } else {
-                // Ensure we store the color value, not an array index or anything else
-                const colorSet = COLORS[Math.floor(Math.random() * COLORS.length)];
-                board[i][j] = colorSet[0]; 
+                const randomColor = activeColors[Math.floor(Math.random() * activeColors.length)];
+                row.push(randomColor);
             }
         }
+        board.push(row);
     }
+    
     drawBoard();
     updateGameInfo();
 }
@@ -189,61 +224,143 @@ function drawBoard() {
 }
 
 function updateGameInfo() {
-    console.log("Updating game info. Score: " + score + ", Time Left: " + timeLeft);
-    scoreDisplay.textContent = `Score: ${score}`;
-    timerDisplay.textContent = `Time: ${timeLeft}s`;
+    if (scoreDisplay) scoreDisplay.textContent = score;
+    if (timerDisplay) timerDisplay.textContent = timeLeft + 's';
+    
+    const levelDisplay = document.getElementById('currentLevel');
+    if (levelDisplay) {
+        levelDisplay.textContent = currentLevel;
+    }
+
+    // Update Pass Rate Stunt
+    const passRateText = document.getElementById('pass-rate-text');
+    if (passRateText) {
+        const config = LEVEL_CONFIGS[currentLevel - 1];
+        if (config.level === 12) {
+            passRateText.textContent = "So far, no one has beat Level 12";
+        } else {
+            passRateText.textContent = `Only ${config.passRate} cleared Level ${config.level}`;
+        }
+    }
+}
+
+function checkLevelUp() {
+    const config = LEVEL_CONFIGS[currentLevel - 1];
+    if (score >= config.targetScore) {
+        if (currentLevel < LEVEL_CONFIGS.length) {
+            nextLevel();
+        } else {
+            winGame();
+        }
+    }
+}
+
+function nextLevel() {
+    clearInterval(timerInterval);
+    gameStarted = false;
+    
+    currentLevel++;
+    
+    // 显示过关蒙层或提示
+    if (gameStartOverlay) {
+        gameStartOverlay.classList.remove('hidden');
+        const startButton = document.getElementById('start-overlay-button');
+        const overlayContent = gameStartOverlay.querySelector('.overlay-content');
+        
+        if (startButton) {
+            startButton.innerHTML = `<span class="play-icon">▶</span> Start Level ${currentLevel}`;
+        }
+        
+        // 提示信息
+        let overlayTitle = gameStartOverlay.querySelector('h2');
+        if (!overlayTitle) {
+            overlayTitle = document.createElement('h2');
+            if (overlayContent) {
+                overlayContent.insertBefore(overlayTitle, overlayContent.firstChild);
+            } else {
+                gameStartOverlay.insertBefore(overlayTitle, gameStartOverlay.firstChild);
+            }
+        }
+        overlayTitle.textContent = `Level ${currentLevel - 1} Clear!`;
+        overlayTitle.style.color = '#34A853';
+    }
+
+    initGame(); // 准备下一关的面板
+}
+
+function winGame() {
+    clearInterval(timerInterval);
+    clearInterval(gameInterval);
+    gameStarted = false;
+    alert(`Congratulations! You've conquered all 12 levels! Final Score: ${score}`);
+    currentLevel = 1;
+    resetGame();
 }
 
 // Function to end the game
 function endGame() {
-    clearInterval(gameInterval);
     clearInterval(timerInterval);
+    clearInterval(blinkInterval);
     gameStarted = false;
-    isPaused = false; // Ensure game is not paused when ended
-    playPauseButton.textContent = 'Play'; // Reset button text
-    gameOverOverlay.classList.remove('hidden');
-    finalScoreDisplay.textContent = score;
-    clearInterval(blinkInterval); // Clear blinking interval on game end
+    isPaused = false;
+    
+    playPauseButton.textContent = 'Play';
+    
+    // 显示失败提示并允许重试当前关卡
+    if (gameStartOverlay) {
+        gameStartOverlay.classList.remove('hidden');
+        const startButton = document.getElementById('start-overlay-button');
+        const overlayContent = gameStartOverlay.querySelector('.overlay-content');
+
+        if (startButton) {
+            startButton.innerHTML = `<span class="play-icon">▶</span> Retry Level ${currentLevel}`;
+        }
+        
+        // 提示信息
+        let overlayTitle = gameStartOverlay.querySelector('h2');
+        if (!overlayTitle) {
+            overlayTitle = document.createElement('h2');
+            if (overlayContent) {
+                overlayContent.insertBefore(overlayTitle, overlayContent.firstChild);
+            } else {
+                gameStartOverlay.insertBefore(overlayTitle, gameStartOverlay.firstChild);
+            }
+        }
+        overlayTitle.textContent = `Game Over! (Level ${currentLevel})`;
+        overlayTitle.style.color = '#EA4335';
+    }
 }
 
 // Function to reset the game
 function resetGame() {
-    console.log("resetGame function called.");
-    clearInterval(gameInterval);
     clearInterval(timerInterval);
-    gameInterval = null; // Explicitly clear
-    timerInterval = null; // Explicitly clear
-    gameOverOverlay.classList.add('hidden');
-    gameStartOverlay.classList.remove('hidden'); // Show start overlay on reset
-    score = 0;
-    timeLeft = GAME_DURATION;
+    clearInterval(gameInterval);
+    clearInterval(blinkInterval);
     gameStarted = false;
+    // score = 0; // initGame will handle this
+    
+    if (gameStartOverlay) {
+        gameStartOverlay.classList.remove('hidden');
+        const startButton = document.getElementById('start-overlay-button');
+        const overlayContent = gameStartOverlay.querySelector('.overlay-content');
+        
+        if (startButton) {
+            startButton.innerHTML = `<span class="play-icon">▶</span> Start Level ${currentLevel}`;
+        }
+        
+        // 移除过关标题或失败标题
+        const overlayTitle = gameStartOverlay.querySelector('h2');
+        if (overlayTitle) overlayTitle.remove();
+    }
+    
+    gameOverOverlay.classList.add('hidden');
     isPaused = false;
-    playPauseButton.textContent = 'Play'; // Set button text to Play early
-    console.log("Resetting game. Play/Pause button text set to: " + playPauseButton.textContent); // Debugging line
-    initGame(); // Re-initialize the board, which also calls drawBoard and updateGameInfo
-    clearInterval(blinkInterval); // Clear blinking interval on game reset
-    // Do not call startGame() here, wait for user to click Play
+    playPauseButton.textContent = 'Play';
+    
+    initGame();
 }
 
-function startGame() {
-    console.log("startGame called. gameStarted:", gameStarted, "isPaused:", isPaused);
-    if (gameStarted && !isPaused) return; 
-    
-    // 不要在这里调用 initGame()，除非我们需要重新开始一个全新的游戏。
-    // 初始化已经在页面加载或 resetGame 时完成。
-    if (!gameStarted) {
-        gameStarted = true;
-    }
-    if (gameStartOverlay) {
-        console.log("Hiding gameStartOverlay");
-        gameStartOverlay.classList.add('hidden');
-    } else {
-        console.error("gameStartOverlay element not found!");
-    }
-    isPaused = false;
-    playPauseButton.textContent = 'Pause';
-
+function startTimer() {
     timerInterval = setInterval(() => {
         timeLeft--;
         updateGameInfo();
@@ -251,19 +368,59 @@ function startGame() {
             endGame();
         }
     }, 1000);
-    gameInterval = setInterval(() => {
-        // Game logic that runs every 100ms (if any)
-    }, 100);
-    startBlinking(); // Start blinking when game starts
+}
+
+function startGame() {
+    // 如果游戏已经在运行且未暂停，则不执行
+    if (gameStarted && !isPaused) return;
+    
+    // 如果是暂停状态，则恢复游戏
+    if (isPaused) {
+        resumeGame();
+        return;
+    }
+
+    // --- 开始新关卡或重试关卡 ---
+    gameStarted = true;
+    isPaused = false;
+    
+    if (gameStartOverlay) {
+        gameStartOverlay.classList.add('hidden');
+        // 清理蒙层上的标题信息
+        const overlayTitle = gameStartOverlay.querySelector('h2');
+        if (overlayTitle) overlayTitle.remove();
+    }
+    
+    playPauseButton.textContent = 'Pause';
+    
+    initGame();
+    startTimer();
+    startBlinking();
+}
+
+function resumeGame() {
+    if (!isPaused) return;
+    
+    isPaused = false;
+    gameStarted = true;
+    playPauseButton.textContent = 'Pause';
+    
+    if (gameStartOverlay) {
+        gameStartOverlay.classList.add('hidden');
+    }
+    
+    startTimer();
+    startBlinking();
 }
 
 function pauseGame() {
-    clearInterval(gameInterval);
+    if (!gameStarted || isPaused) return;
+    
     clearInterval(timerInterval);
-    clearInterval(blinkInterval); // Clear blinking interval on pause
+    clearInterval(blinkInterval);
     isPaused = true;
     playPauseButton.textContent = 'Play';
-    drawBoard(); // Redraw to show dots in a consistent state when paused
+    drawBoard(); 
 }
 
 function playPauseHandler() {
@@ -377,8 +534,11 @@ canvas.addEventListener('click', (event) => {
                 score += totalCleared;
                 drawBoard();
                 updateGameInfo();
+                checkLevelUp(); // 每次得分后检查是否达到过关分数
                 if (checkAllTilesCleared()) {
-                    endGame();
+                    timeLeft += 10; // 清屏奖金时间
+                    updateGameInfo();
+                    initGame();
                 }
             }
         }
@@ -389,6 +549,15 @@ canvas.addEventListener('click', (event) => {
 playPauseButton.addEventListener('click', playPauseHandler);
 restartButton.addEventListener('click', resetGame);
 resetGameButton.addEventListener('click', resetGame);
+const restartLevel1Button = document.getElementById('restart-level-1-button');
+if (restartLevel1Button) {
+    restartLevel1Button.addEventListener('click', () => {
+        currentLevel = 1;
+        score = 0;
+        startGame();
+    });
+}
+
 startOverlayButton.addEventListener('click', () => {
     console.log("startOverlayButton clicked");
     startGame();
@@ -408,3 +577,10 @@ function checkAllTilesCleared() {
 canvas.width = BOARD_COLS * TILE_SIZE;
 canvas.height = BOARD_ROWS * TILE_SIZE;
 initGame(); // Initialize game on page load
+
+// If a debug level is set, automatically update the button text
+if (DEBUG_START_LEVEL >= 1 && DEBUG_START_LEVEL <= 12) {
+    if (startOverlayButton) {
+        startOverlayButton.innerHTML = `<span class="play-icon">▶</span> Start Level ${DEBUG_START_LEVEL}`;
+    }
+}
