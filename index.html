@@ -28,7 +28,7 @@
     <meta property="twitter:title" content="Google Color Tiles | Google Colour Tiles - Only 3.5% Beat Level 8!">
     <meta property="twitter:description" content="Only 3.5% beat Level 8! No human record for Level 11 & 12 yet. Master the addictive Google Color Tiles puzzle game. Dare to challenge?">
     <meta property="twitter:image" content="https://colortiles.games/og-image.jpg">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Schema.org Data -->
@@ -127,9 +127,17 @@
             <nav>
                 <ul>
                     <li><a href="/">HOME</a></li>
-                    <li><a href="/how-to-play.html">How to Play</a></li>
-                    <li><a href="/related-games.html">Related Games</a></li>
-                    <li><a href="/google-color-tiles-guide.html">Google Guide</a></li>
+                    <li class="dropdown">
+                        <a href="/guides/">GUIDES <span class="arrow">▼</span></a>
+                        <ul class="dropdown-content">
+                            <li><a href="/guides/how-to-play.html">How to Play</a></li>
+                            <li><a href="/guides/google-color-tiles-guide.html">Google Guide</a></li>
+                            <li><a href="/guides/strategy-guide.html">Strategy Guide</a></li>
+                            <li><a href="/guides/history-evolution.html">History & Evolution</a></li>
+                            <li><a href="/guides/brain-training.html">Brain Training</a></li>
+                            <li><a href="/guides/related-games.html">Related Games</a></li>
+                        </ul>
+                    </li>
                     <li><a href="/about.html">About</a></li>
                     <li><a href="/contact.html">Contact</a></li>
                 </ul>
@@ -359,25 +367,48 @@
             </dl>
         </section>
         <section class="explore-more-section">
-            <h2>Explore More About Color Tiles</h2>
+            <div class="section-header">
+                <h2>Master the Google Color Tiles</h2>
+                <a href="/guides/" class="view-all-btn">
+                    View All Resources <span class="icon">→</span>
+                </a>
+            </div>
             <div class="explore-grid">
                 <div class="explore-item">
                     <span class="explore-icon">🎯</span>
-                    <h3><a href="/how-to-play.html">How to Play & Strategy</a></h3>
-                    <p>Master the <strong>Color Tiles logic tips</strong> and advanced strategies to boost your high score and sharpen your puzzle skills.</p>
-                    <a href="/how-to-play.html" class="card-link">Learn More &rarr;</a>
+                    <h3><a href="/guides/how-to-play.html">How to Play & Logic</a></h3>
+                    <p>New to the game? Master the <strong>Color Tiles logic tips</strong> and basic rules to start your journey.</p>
+                    <a href="/guides/how-to-play.html" class="card-link">Learn Basics &rarr;</a>
                 </div>
                 <div class="explore-item">
-                    <span class="explore-icon">🧩</span>
-                    <h3><a href="/related-games.html">Related Puzzle Games</a></h3>
-                    <p>Discover games like <strong>Color Connect</strong> and <strong>Tile Matching</strong> to expand your tile-based puzzle collection.</p>
-                    <a href="/related-games.html" class="card-link">Explore Games &rarr;</a>
+                    <span class="explore-icon">⚡</span>
+                    <h3><a href="/guides/strategy-guide.html">Advanced Strategy Guide</a></h3>
+                    <p>Master the <strong>Color Tiles 12-level system</strong> with our pro-level tactical breakdown and speed-clicking tips.</p>
+                    <a href="/guides/strategy-guide.html" class="card-link">Master Strategy &rarr;</a>
+                </div>
+                <div class="explore-item">
+                    <span class="explore-icon">📜</span>
+                    <h3><a href="/guides/history-evolution.html">History & Evolution</a></h3>
+                    <p>Discover the fascinating journey of <strong>Google Color Tiles</strong> from a search easter egg to a global phenomenon.</p>
+                    <a href="/guides/history-evolution.html" class="card-link">Read History &rarr;</a>
+                </div>
+                <div class="explore-item">
+                    <span class="explore-icon">🧠</span>
+                    <h3><a href="/guides/brain-training.html">Brain Training Benefits</a></h3>
+                    <p>Learn how playing <strong>Google Color Tiles online</strong> can sharpen your mind and improve cognitive functions.</p>
+                    <a href="/guides/brain-training.html" class="card-link">Boost Your Brain &rarr;</a>
                 </div>
                 <div class="explore-item">
                     <span class="explore-icon">💡</span>
-                    <h3><a href="/google-color-tiles-guide.html">Google Color Tiles Guide</a></h3>
-                    <p>Everything you need to know about the <strong>Google color tiles</strong> experience, including original features and FAQ.</p>
-                    <a href="/google-color-tiles-guide.html" class="card-link">View Guide &rarr;</a>
+                    <h3><a href="/guides/google-color-tiles-guide.html">Google Color Tiles Guide</a></h3>
+                    <p>Learn about the <strong>Google color tiles</strong> experience, unique 3D features, and matching mechanics.</p>
+                    <a href="/guides/google-color-tiles-guide.html" class="card-link">View Guide &rarr;</a>
+                </div>
+                <div class="explore-item">
+                    <span class="explore-icon">🧩</span>
+                    <h3><a href="/guides/related-games.html">Related Puzzle Games</a></h3>
+                    <p>Explore games like <strong>Color Connect</strong> and other tile-matching variations to expand your collection.</p>
+                    <a href="/guides/related-games.html" class="card-link">Explore Games &rarr;</a>
                 </div>
             </div>
         </section>
@@ -396,9 +427,7 @@
             <p>&copy; 2026 Google Color Tiles. All rights reserved.</p>
             <nav>
                 <a href="/">Home</a> |
-                <a href="/how-to-play.html">How to Play</a> |
-                <a href="/related-games.html">Related Games</a> |
-                <a href="/google-color-tiles-guide.html">Google Guide</a> |
+                <a href="/guides/">Guides</a> |
                 <a href="/about.html">About Us</a> |
                 <a href="/contact.html">Contact</a>
             </nav>
